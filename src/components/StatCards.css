@@ -1,0 +1,83 @@
+/* ============================================================
+   StatCards — 3-column responsive stats grid
+   ============================================================ */
+
+/* ── Grid container ─────────────────────────────────────────── */
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3, 12px);
+  width: 100%;
+}
+
+/* Collapse to single column on very small screens */
+@media (max-width: 480px) {
+  .stat-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Individual card ────────────────────────────────────────── */
+.stat-card {
+  background: var(--color-surface, #18181c);
+  border: 1px solid var(--color-border, #2a2a30);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+  transition:
+    border-color var(--transition-base, 200ms ease),
+    box-shadow   var(--transition-base, 200ms ease),
+    transform    var(--transition-base, 200ms ease);
+  cursor: default;
+}
+
+.stat-card:hover {
+  border-color: var(--accent, #e05c5c);
+  box-shadow: 0 0 0 1px var(--accent-glow, rgba(224, 92, 92, 0.12)),
+              0 4px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+/* ── Value ──────────────────────────────────────────────────── */
+.stat-card__value {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: var(--text-2xl, 1.953rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent, #e05c5c);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  transition: color var(--transition-base, 200ms ease);
+}
+
+/* ── Unit suffix (smaller, muted) ───────────────────────────── */
+.stat-card__unit {
+  font-size: var(--text-sm, 0.8rem);
+  font-weight: 500;
+  color: var(--color-text-muted, #6b6b7a);
+  margin-left: 2px;
+}
+
+/* ── Label ──────────────────────────────────────────────────── */
+.stat-card__label {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--text-xs, 0.64rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #6b6b7a);
+  margin-top: 2px;
+}
+
+/* ── Animated value update ──────────────────────────────────── */
+@keyframes stat-pop {
+  0%   { transform: scale(1);    }
+  40%  { transform: scale(1.12); }
+  100% { transform: scale(1);    }
+}
+
+.stat-card__value--updated {
+  animation: stat-pop 300ms var(--transition-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) forwards;
+}

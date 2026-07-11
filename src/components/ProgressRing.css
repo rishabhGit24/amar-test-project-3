@@ -1,0 +1,128 @@
+/* ============================================================
+   ProgressRing — SVG countdown ring component
+   ============================================================ */
+
+/* ── Wrapper ────────────────────────────────────────────────── */
+.ring-wrapper {
+  position: relative;
+  width: min(80vw, 360px);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Subtle glow behind the ring */
+  filter: drop-shadow(0 0 32px var(--accent-glow));
+  transition: filter var(--transition-base);
+}
+
+/* ── SVG element ────────────────────────────────────────────── */
+.ring-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  /* Rotate so progress starts at 12 o'clock */
+  transform: rotate(-90deg);
+  transition: transform var(--transition-base);
+}
+
+/* ── Background track circle ────────────────────────────────── */
+.ring-track {
+  fill: none;
+  stroke: var(--color-border, #2a2a30);
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+/* ── Foreground progress arc ────────────────────────────────── */
+.ring-progress {
+  fill: none;
+  stroke: var(--accent, #e05c5c);
+  stroke-width: 10;
+  stroke-linecap: round;
+  /* Smooth depletion — 1s linear per spec */
+  transition: stroke-dashoffset 1s linear, stroke var(--transition-base);
+}
+
+/* ── Time label (absolutely positioned over SVG) ────────────── */
+.ring-time {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  /* Undo the SVG rotation so text reads normally */
+  pointer-events: none;
+  user-select: none;
+}
+
+.ring-time__display {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: clamp(3rem, 12vw, 6rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary, #f0f0f5);
+  line-height: 1;
+  transition: color var(--transition-base);
+}
+
+.ring-time__label {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(0.65rem, 2vw, 0.8rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #6b6b7a);
+  transition: color var(--transition-base);
+}
+
+/* ── Paused state — subtle opacity pulse ────────────────────── */
+@keyframes ring-pulse {
+  0%   { opacity: 0.7; }
+  50%  { opacity: 1;   }
+  100% { opacity: 0.7; }
+}
+
+.ring--paused .ring-progress {
+  animation: ring-pulse 2s ease-in-out infinite;
+}
+
+.ring--paused .ring-time__display {
+  animation: ring-pulse 2s ease-in-out infinite;
+}
+
+/* ── Complete state — celebratory scale burst ───────────────── */
+@keyframes ring-complete {
+  0%   { transform: rotate(-90deg) scale(1);    opacity: 1;   }
+  40%  { transform: rotate(-90deg) scale(1.06); opacity: 1;   }
+  70%  { transform: rotate(-90deg) scale(0.98); opacity: 0.9; }
+  100% { transform: rotate(-90deg) scale(1);    opacity: 1;   }
+}
+
+@keyframes ring-complete-time {
+  0%   { transform: scale(1);    opacity: 1;   }
+  40%  { transform: scale(1.08); opacity: 1;   }
+  70%  { transform: scale(0.97); opacity: 0.9; }
+  100% { transform: scale(1);    opacity: 1;   }
+}
+
+.ring--complete .ring-svg {
+  animation: ring-complete 600ms ease-out forwards;
+}
+
+.ring--complete .ring-time__display {
+  animation: ring-complete-time 600ms ease-out forwards;
+}
+
+/* ── Glow pulse on complete ─────────────────────────────────── */
+@keyframes glow-burst {
+  0%   { filter: drop-shadow(0 0 32px var(--accent-glow)); }
+  40%  { filter: drop-shadow(0 0 64px var(--accent-glow)) drop-shadow(0 0 24px var(--accent)); }
+  100% { filter: drop-shadow(0 0 32px var(--accent-glow)); }
+}
+
+.ring--complete {
+  animation: glow-burst 600ms ease-out forwards;
+}

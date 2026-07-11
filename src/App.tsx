@@ -1,19 +1,29 @@
 /**
  * App.tsx
- * Root application component.
- * The full UI will be built in the UI story; this shell ensures
- * `npm run dev` serves without errors and the timer engine is wired.
+ * Root application component — full Pomodoro timer UI.
+ *
+ * Sets data-mode on <html> so CSS accent tokens apply globally.
+ * Renders: ModeSwitcher → ProgressRing → Controls → StatCards
  */
 
 import './tokens.css'
+import './index.css'
+import './App.css'
+
+import { useEffect } from 'react'
 import { useTimer } from './hooks/useTimer'
+import { ProgressRing } from './components/ProgressRing'
+import { ModeSwitcher } from './components/ModeSwitcher'
+import { Controls } from './components/Controls'
+import { StatCards } from './components/StatCards'
+
+// ── Component ──────────────────────────────────────────────────────────────
 
 function App() {
   const {
     mode,
     secondsLeft,
     isRunning,
-    focusCount,
     stats,
     progress,
     start,
@@ -22,163 +32,63 @@ function App() {
     setMode,
   } = useTimer()
 
-  const minutes = Math.floor(secondsLeft / 60).toString().padStart(2, '0')
-  const seconds = (secondsLeft % 60).toString().padStart(2, '0')
+  // Apply data-mode to <html> so CSS token overrides cascade everywhere
+  useEffect(() => {
+    document.documentElement.dataset.mode = mode
+  }, [mode])
 
   return (
-    <div
-      data-mode={mode}
-      style={{
-        minHeight: '100dvh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'var(--color-bg)',
-        color: 'var(--color-text-primary)',
-        fontFamily: 'var(--font-sans)',
-        gap: 'var(--space-6)',
-        padding: 'var(--space-8)',
-      }}
-    >
-      {/* Mode selector */}
-      <nav
-        role="tablist"
-        aria-label="Timer mode"
-        style={{ display: 'flex', gap: 'var(--space-2)' }}
-      >
-        {(['focus', 'short', 'long'] as const).map(m => (
-          <button
-            key={m}
-            role="tab"
-            aria-selected={mode === m}
-            onClick={() => setMode(m)}
-            style={{
-              padding: 'var(--space-2) var(--space-4)',
-              borderRadius: 'var(--radius-full)',
-              border: 'none',
-              cursor: 'pointer',
-              fontFamily: 'var(--font-sans)',
-              fontSize: 'var(--text-sm)',
-              fontWeight: 'var(--font-medium)',
-              transition: 'all var(--transition-base)',
-              background: mode === m ? 'var(--color-accent)' : 'var(--color-surface)',
-              color: mode === m ? 'var(--color-neutral-0)' : 'var(--color-text-secondary)',
-            }}
-          >
-            {m === 'focus' ? 'Focus' : m === 'short' ? 'Short Break' : 'Long Break'}
-          </button>
-        ))}
-      </nav>
+    <main className="app" data-mode={mode}>
+      <div className="app__content">
 
-      {/* Timer display */}
-      <div
-        role="timer"
-        aria-live="polite"
-        aria-label={`${minutes} minutes ${seconds} seconds remaining`}
-        style={{
-          fontSize: 'var(--text-6xl)',
-          fontFamily: 'var(--font-mono)',
-          fontWeight: 'var(--font-bold)',
-          letterSpacing: 'var(--tracking-tight)',
-          color: 'var(--color-text-primary)',
-        }}
-      >
-        {minutes}:{seconds}
-      </div>
+        {/* ── Wordmark ─────────────────────────────────────── */}
+        <header className="app__header">
+          <span className="app__wordmark" aria-label="Amar Focus">
+            Amar Focus
+          </span>
+        </header>
 
-      {/* Progress bar */}
-      <div
-        role="progressbar"
-        aria-valuenow={Math.round(progress * 100)}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        style={{
-          width: '320px',
-          height: '4px',
-          borderRadius: 'var(--radius-full)',
-          background: 'var(--color-surface-2)',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            height: '100%',
-            width: `${progress * 100}%`,
-            background: 'var(--color-accent)',
-            borderRadius: 'var(--radius-full)',
-            transition: 'width var(--transition-base)',
-          }}
-        />
-      </div>
+        {/* ── Mode switcher ────────────────────────────────── */}
+        <nav aria-label="Timer mode selection">
+          <ModeSwitcher mode={mode} setMode={setMode} />
+        </nav>
 
-      {/* Controls */}
-      <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
-        <button
-          onClick={isRunning ? pause : start}
-          aria-label={isRunning ? 'Pause timer' : 'Start timer'}
-          style={{
-            padding: 'var(--space-4) var(--space-8)',
-            borderRadius: 'var(--radius-full)',
-            border: 'none',
-            cursor: 'pointer',
-            fontFamily: 'var(--font-sans)',
-            fontSize: 'var(--text-base)',
-            fontWeight: 'var(--font-semibold)',
-            background: 'var(--color-accent)',
-            color: 'var(--color-neutral-0)',
-            transition: 'all var(--transition-base)',
-          }}
+        {/* ── Progress ring ────────────────────────────────── */}
+        <section
+          className="app__ring"
+          aria-label="Timer"
+          role="timer"
+          aria-live="polite"
+          aria-atomic="true"
         >
-          {isRunning ? 'Pause' : 'Start'}
-        </button>
-        <button
-          onClick={reset}
-          aria-label="Reset timer"
-          style={{
-            padding: 'var(--space-4) var(--space-6)',
-            borderRadius: 'var(--radius-full)',
-            border: '1px solid var(--color-border)',
-            cursor: 'pointer',
-            fontFamily: 'var(--font-sans)',
-            fontSize: 'var(--text-base)',
-            fontWeight: 'var(--font-medium)',
-            background: 'transparent',
-            color: 'var(--color-text-secondary)',
-            transition: 'all var(--transition-base)',
-          }}
-        >
-          Reset
-        </button>
-      </div>
+          <ProgressRing
+            progress={progress}
+            secondsLeft={secondsLeft}
+            isRunning={isRunning}
+            mode={mode}
+          />
+        </section>
 
-      {/* Stats */}
-      <div
-        style={{
-          display: 'flex',
-          gap: 'var(--space-8)',
-          color: 'var(--color-text-secondary)',
-          fontSize: 'var(--text-sm)',
-        }}
-      >
-        <span>Today: <strong style={{ color: 'var(--color-text-primary)' }}>{stats.todayCount}</strong></span>
-        <span>Total: <strong style={{ color: 'var(--color-text-primary)' }}>{stats.totalMinutes}m</strong></span>
-        <span>Streak: <strong style={{ color: 'var(--color-text-primary)' }}>{stats.streak}d</strong></span>
-        <span>Sessions: <strong style={{ color: 'var(--color-text-primary)' }}>{focusCount}</strong></span>
-      </div>
+        {/* ── Controls ─────────────────────────────────────── */}
+        <section className="app__controls" aria-label="Timer controls">
+          <Controls
+            isRunning={isRunning}
+            onStart={start}
+            onPause={pause}
+            onReset={reset}
+          />
+        </section>
 
-      {/* Keyboard hint */}
-      <p
-        style={{
-          color: 'var(--color-text-muted)',
-          fontSize: 'var(--text-xs)',
-          textAlign: 'center',
-          margin: 0,
-        }}
-      >
-        <kbd>Space</kbd> start/pause · <kbd>R</kbd> reset · <kbd>1</kbd> focus · <kbd>2</kbd> short · <kbd>3</kbd> long
-      </p>
-    </div>
+        {/* ── Divider ──────────────────────────────────────── */}
+        <hr className="app__divider" aria-hidden="true" />
+
+        {/* ── Stat cards ───────────────────────────────────── */}
+        <section className="app__stats" aria-label="Your statistics">
+          <StatCards stats={stats} />
+        </section>
+
+      </div>
+    </main>
   )
 }
 
