@@ -32,15 +32,14 @@ const FADE_OUT_MS  = 0.04  // 40 ms ramp down (avoid clicks)
  * Silently no-ops if AudioContext is not available in the current environment.
  */
 export function playChime(): void {
-  // Resolve AudioContext (handle webkit prefix)
-  const AudioCtx =
-    typeof AudioContext !== 'undefined'
-      ? AudioContext
-      : typeof (window as Window & { webkitAudioContext?: typeof AudioContext })
-              .webkitAudioContext !== 'undefined'
-        ? (window as Window & { webkitAudioContext: typeof AudioContext })
-            .webkitAudioContext
-        : null
+  // Resolve AudioContext (handle webkit prefix). Cast via `unknown` — a direct
+  // cast of window to a type carrying webkitAudioContext fails strict tsc
+  // (TS2352: insufficient overlap), which broke the production build.
+  const w = window as unknown as {
+    AudioContext?: typeof AudioContext
+    webkitAudioContext?: typeof AudioContext
+  }
+  const AudioCtx = w.AudioContext ?? w.webkitAudioContext ?? null
 
   if (!AudioCtx) return
 
