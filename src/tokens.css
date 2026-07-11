@@ -1,10 +1,18 @@
 /* ============================================================
    AMAR FOCUS — Design Tokens
    All CSS custom properties for the entire application.
-   8px base grid, cohesive palette, accessible contrast.
+   8px base grid, cohesive dark palette, accessible contrast.
    ============================================================ */
 
 :root {
+  /* ── Core Background / Surface ──────────────────────────── */
+  --color-bg-base:      #0d0d0f;
+  --color-surface:      #18181c;
+  --color-surface-2:    #222228;
+  --color-border:       #2a2a30;
+  --color-text-primary: #f0f0f5;
+  --color-text-muted:   #6b6b7a;
+
   /* ── Spacing (8px grid) ─────────────────────────────────── */
   --space-1:  4px;
   --space-2:  8px;
@@ -19,111 +27,30 @@
   --space-20: 80px;
   --space-24: 96px;
 
-  /* ── Color Palette ──────────────────────────────────────── */
-  /* Neutral */
-  --color-neutral-0:   #ffffff;
-  --color-neutral-50:  #f8f8fb;
-  --color-neutral-100: #f0f0f5;
-  --color-neutral-200: #e2e2ec;
-  --color-neutral-300: #c8c8d8;
-  --color-neutral-400: #9898b0;
-  --color-neutral-500: #6b6b88;
-  --color-neutral-600: #4a4a64;
-  --color-neutral-700: #32324a;
-  --color-neutral-800: #1e1e30;
-  --color-neutral-900: #0f0f1a;
-
-  /* Focus (deep indigo) */
-  --color-focus-50:  #eef0ff;
-  --color-focus-100: #dde2ff;
-  --color-focus-200: #bbc5ff;
-  --color-focus-300: #8896ff;
-  --color-focus-400: #5b6ef5;
-  --color-focus-500: #3d4fe8;
-  --color-focus-600: #2d3dd4;
-  --color-focus-700: #2330b8;
-  --color-focus-800: #1c2795;
-  --color-focus-900: #141b6e;
-
-  /* Short break (teal) */
-  --color-short-50:  #edfcf9;
-  --color-short-100: #d2f8f0;
-  --color-short-200: #a8f0e3;
-  --color-short-300: #6de3d0;
-  --color-short-400: #38ccb8;
-  --color-short-500: #1fb0a0;
-  --color-short-600: #178d82;
-  --color-short-700: #156f68;
-  --color-short-800: #145854;
-  --color-short-900: #134946;
-
-  /* Long break (amber) */
-  --color-long-50:  #fffbeb;
-  --color-long-100: #fef3c7;
-  --color-long-200: #fde68a;
-  --color-long-300: #fcd34d;
-  --color-long-400: #fbbf24;
-  --color-long-500: #f59e0b;
-  --color-long-600: #d97706;
-  --color-long-700: #b45309;
-  --color-long-800: #92400e;
-  --color-long-900: #78350f;
-
-  /* Semantic */
-  --color-success:  #22c55e;
-  --color-warning:  #f59e0b;
-  --color-error:    #ef4444;
-  --color-info:     #3b82f6;
-
-  /* ── Mode-aware surface tokens (default = focus) ────────── */
-  --color-bg:           var(--color-neutral-900);
-  --color-surface:      var(--color-neutral-800);
-  --color-surface-2:    var(--color-neutral-700);
-  --color-border:       var(--color-neutral-700);
-  --color-text-primary: var(--color-neutral-0);
-  --color-text-secondary: var(--color-neutral-400);
-  --color-text-muted:   var(--color-neutral-500);
-  --color-accent:       var(--color-focus-400);
-  --color-accent-hover: var(--color-focus-300);
-  --color-accent-muted: var(--color-focus-900);
-
   /* ── Typography ─────────────────────────────────────────── */
-  --font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont,
-               'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               Helvetica, Arial, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace,
                'SF Mono', Menlo, monospace;
 
-  /* Type scale (Major Third — 1.25) */
-  --text-xs:   0.64rem;   /* 10.24px */
-  --text-sm:   0.8rem;    /* 12.8px  */
-  --text-base: 1rem;      /* 16px    */
-  --text-lg:   1.25rem;   /* 20px    */
-  --text-xl:   1.563rem;  /* 25px    */
-  --text-2xl:  1.953rem;  /* 31.25px */
-  --text-3xl:  2.441rem;  /* 39px    */
-  --text-4xl:  3.052rem;  /* 48.8px  */
-  --text-5xl:  3.815rem;  /* 61px    */
-  --text-6xl:  4.768rem;  /* 76.3px  */
+  /* Type scale */
+  --text-xs:   0.64rem;
+  --text-sm:   0.8rem;
+  --text-base: 1rem;
+  --text-lg:   1.25rem;
+  --text-xl:   1.563rem;
+  --text-2xl:  1.953rem;
+  --text-3xl:  2.441rem;
+  --text-4xl:  3.052rem;
+  --text-5xl:  3.815rem;
+  --text-6xl:  4.768rem;
 
   /* Font weights */
-  --font-normal:   400;
-  --font-medium:   500;
-  --font-semibold: 600;
-  --font-bold:     700;
+  --font-normal:    400;
+  --font-medium:    500;
+  --font-semibold:  600;
+  --font-bold:      700;
   --font-extrabold: 800;
-
-  /* Line heights */
-  --leading-tight:  1.2;
-  --leading-snug:   1.375;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.625;
-
-  /* Letter spacing */
-  --tracking-tight:  -0.025em;
-  --tracking-normal:  0em;
-  --tracking-wide:    0.025em;
-  --tracking-wider:   0.05em;
-  --tracking-widest:  0.1em;
 
   /* ── Radii ──────────────────────────────────────────────── */
   --radius-sm:   4px;
@@ -131,16 +58,8 @@
   --radius-lg:   12px;
   --radius-xl:   16px;
   --radius-2xl:  24px;
+  --radius-pill: 999px;
   --radius-full: 9999px;
-
-  /* ── Shadows ────────────────────────────────────────────── */
-  --shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 0.3);
-  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
-  --shadow-glow-focus: 0 0 40px 0 rgb(91 110 245 / 0.25);
-  --shadow-glow-short: 0 0 40px 0 rgb(56 204 184 / 0.25);
-  --shadow-glow-long:  0 0 40px 0 rgb(251 191 36 / 0.25);
 
   /* ── Transitions ────────────────────────────────────────── */
   --transition-fast:   150ms ease;
@@ -152,38 +71,28 @@
   --z-base:    0;
   --z-raised:  10;
   --z-overlay: 100;
-  --z-modal:   200;
-  --z-toast:   300;
 
   /* ── Layout ─────────────────────────────────────────────── */
-  --max-width-sm:  480px;
-  --max-width-md:  768px;
-  --max-width-lg:  1024px;
-  --max-width-xl:  1280px;
+  --max-width-app: 520px;
   --container-padding: var(--space-6);
+
+  /* ── Default accent (focus mode) ────────────────────────── */
+  --accent:      #e05c5c;
+  --accent-glow: rgba(224, 92, 92, 0.18);
 }
 
-/* ── Mode-specific accent overrides ────────────────────────── */
-[data-mode='focus'] {
-  --color-accent:       var(--color-focus-400);
-  --color-accent-hover: var(--color-focus-300);
-  --color-accent-muted: var(--color-focus-900);
-  --shadow-glow:        var(--shadow-glow-focus);
-  --gradient-mode: linear-gradient(135deg, #1c2795 0%, #0f0f1a 60%);
+/* ── Per-mode accent overrides ──────────────────────────────── */
+[data-mode="focus"] {
+  --accent:      #e05c5c;
+  --accent-glow: rgba(224, 92, 92, 0.18);
 }
 
-[data-mode='short'] {
-  --color-accent:       var(--color-short-400);
-  --color-accent-hover: var(--color-short-300);
-  --color-accent-muted: var(--color-short-900);
-  --shadow-glow:        var(--shadow-glow-short);
-  --gradient-mode: linear-gradient(135deg, #145854 0%, #0f0f1a 60%);
+[data-mode="short"] {
+  --accent:      #5cb8e0;
+  --accent-glow: rgba(92, 184, 224, 0.18);
 }
 
-[data-mode='long'] {
-  --color-accent:       var(--color-long-400);
-  --color-accent-hover: var(--color-long-300);
-  --color-accent-muted: var(--color-long-900);
-  --shadow-glow:        var(--shadow-glow-long);
-  --gradient-mode: linear-gradient(135deg, #78350f 0%, #0f0f1a 60%);
+[data-mode="long"] {
+  --accent:      #7c5ce0;
+  --accent-glow: rgba(124, 92, 224, 0.18);
 }

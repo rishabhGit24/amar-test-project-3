@@ -1,0 +1,82 @@
+/* ============================================================
+   AMAR FOCUS — Global Styles & Reset
+   ============================================================ */
+
+/* Load JetBrains Mono from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* ── Box-sizing reset ───────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Root / HTML ────────────────────────────────────────────── */
+html {
+  /* Prevent flash of light background */
+  background-color: #0d0d0f;
+  color-scheme: dark;
+  /* Smooth accent transitions on mode switch */
+  transition: background-color var(--transition-base, 200ms ease);
+}
+
+/* ── Body ───────────────────────────────────────────────────── */
+body {
+  background: var(--color-bg-base, #0d0d0f);
+  color: var(--color-text-primary, #f0f0f5);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--text-base, 1rem);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* ── Remove default button/input styles ─────────────────────── */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ── Focus-visible global baseline ─────────────────────────── */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent, #e05c5c);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Scrollbar styling ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-base, #0d0d0f);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border, #2a2a30);
+  border-radius: 3px;
+}
+
+/* ── Selection ──────────────────────────────────────────────── */
+::selection {
+  background: var(--accent-glow, rgba(224, 92, 92, 0.3));
+  color: var(--color-text-primary, #f0f0f5);
+}

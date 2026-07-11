@@ -1,0 +1,73 @@
+/* ============================================================
+   ModeSwitcher — pill tab bar for Focus / Short / Long Break
+   ============================================================ */
+
+/* ── Container ──────────────────────────────────────────────── */
+.mode-switcher {
+  display: flex;
+  align-items: center;
+  background: var(--color-surface, #18181c);
+  border: 1px solid var(--color-border, #2a2a30);
+  border-radius: var(--radius-pill, 999px);
+  padding: 4px;
+  gap: 2px;
+}
+
+/* ── Individual tab button ──────────────────────────────────── */
+.mode-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-pill, 999px);
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted, #6b6b7a);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--text-sm, 0.8rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-base, 200ms ease),
+    color            var(--transition-base, 200ms ease),
+    opacity          var(--transition-base, 200ms ease),
+    transform        var(--transition-fast, 150ms ease);
+  /* Prevent layout shift on active state */
+  outline: none;
+}
+
+/* Active / selected state */
+.mode-btn[aria-selected="true"] {
+  background: var(--accent, #e05c5c);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Hover on inactive buttons */
+.mode-btn:not([aria-selected="true"]):hover {
+  opacity: 0.8;
+  color: var(--color-text-primary, #f0f0f5);
+  background: var(--color-surface-2, #222228);
+}
+
+/* Active press */
+.mode-btn:active {
+  transform: scale(0.97);
+}
+
+/* Focus-visible ring */
+.mode-btn:focus-visible {
+  outline: 2px solid var(--accent, #e05c5c);
+  outline-offset: 2px;
+}
+
+/* ── Responsive: shrink padding on small screens ────────────── */
+@media (max-width: 400px) {
+  .mode-btn {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.72rem;
+  }
+}
